@@ -1,0 +1,221 @@
+---
+title: "The effect of COVID-19 restrictions on unemployment in Colorado and Utah"
+output: pdf_document
+author: Kevin Nguyen, JT Bley, Tommy Finnegan, & Raymond Hashimi
+header-includes:
+   - \usepackage{dcolumn} 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+library(tidyverse)
+library(stargazer)
+library(lubridate)
+setwd("/Users/nguyenkm13/Google Drive/fall2020/econ4848/econ4848_project/data")
+colorado <- read_csv("MAIN_co.csv")
+utah <- read_csv("MAIN_ut.csv") 
+
+aco <- colorado %>% filter(County == "Adams County")
+utah <- utah %>% mutate(unemprate = unemprate * 100)
+
+coMetro <- colorado %>% filter(designation != "rural")
+utMetro <- utah %>% filter(designation != "rural")
+```
+## Abstract (Raymond)
+
+In our research project our aim was to determine whether or not the Covid-19 lockdown has had an impact on the unemployment rate in urban & suburban areas across Colorado and Utah. Our hypothesis was that urban counties across the two states would in fact have a higher unemployment rate than suburban counties, running similar OLS regressions between the two states to determine the most accurate outcome from the data. Running these two regressions, we were able to accept our hypothesis as urban counties across Colorado had a 1.975% greater increase in unemployment than suburban counties. Utah showed similar data, as urban counties across the state showed a 2.204% greater increase in unemployment than suburban counties.
+
+## Introduction (Tommy)
+
+Our topic is analyzing the difference in the unemployment rate in Colorado and Utah between urban and suburban counties due to covid regulations.  The question we answered was: “Are the unemployment rates between urban and suburban counties different due to covid19 regulations? And if so why?” We should care because the economic effects of covid 19 are almost as bad as the physical.  The higher unemployment rates in urban counties show that people who live there are being affected economically much more than people who live in suburban counties.  These higher rates of unemployment can lead to complete loss of income, homelessness, and lack of food because of the low unemployment benefits at this time.  To answer our question we ran OLS regressions in both Utah and Colorado on how covid lockdowns affected the unemployment rate in urban and suburban areas.  We controlled for various confounding variables and made sure to focus on metropolitan areas instead of rural so the industries were essentially the same.  We found that people in urban counties suffer from  a higher unemployment rate due to covid restrictions than people in suburban counties.  This result is statistically significant and proves that covid restrictions hurt people in urban areas more than people in suburban areas.  The rest of the paper will start with our literature review which gathers information from outside sources that found a similar or identical result to ours.  Next we will state our empirical strategy which breaks down which methods we used to obtain our results.  After that is the data section where we will explain how we came upon our data and the kind of data it is. Following the data section is the results and discussion section which contains our principal regressions and an analysis of our statistical and economic significance.  Finally in our conclusion we will cum up our entire research project while restating our main points, methods, and conclusion. 
+
+## Literature Review (JT)
+In the Article The Effect of Lockdown Measures on Unemployment, by Mario Karabarbounis, Reiko Laski, James, and Nicholas Trachter they measure the growth in unemployment rate by the growth in time spent at home. The difference in our research question and theirs is we saw the affect the lockdown had on Unemployment, while they look at how staying at home affects unemployment. Staying at home includes other factors such as voluntarily staying home, getting sick, or quarantining. However, in our research we solely focused on if the lockdown would affect urban county unemployment more than suburban counties.  Iacurci (2020) says, “the Great depression levels of unemployment have hit some of the country’s biggest cities.” Cities like New York and LA have hit unemployment rates of 20.4% and 18.4%, which nears the 25.6% of peak unemployment in the Great Depression. Those numbers in those highly populated cities support our data that urban areas are facing the worst of Covid. The article doesn’t state the fact that the high unemployment rate is due to a stay-at-home order, but Spector (2020) said the lockdown began March 20th, but when compared to lacurci’s data the timing is almost identical to New York’s high unemployment rates and being well into the lockdown.
+ 
+
+This is a chart given by Karabarbounis (2020). You can see in this data that Utah was the second least affected, which makes sense because they never went under true lockdown.
+
+![](/Users/nguyenkm13/Google Drive/fall2020/econ4848/econ4848_project/data/fig1.png)
+
+I believe it is important to see the whole sized data of a state on unemployment that way when data like ours is viewed in two separate categories you get an understanding on the full effect the lockdown has on unemployment.
+
+
+The approach we took on our research is nothing new to anyone. A stay-at-home order and its impact on the economy and unemployment should not surprise anyone. The effect that the lockdown has on the economy and unemployment rate was one of the first things economists looked at to understand the true impact of the lockdown. Over time as the virus stayed relevant in the US and the lockdown grew longer, along with being lifted and then being put back in order Economists focused more on details like our research question. Many economists ran regression models, and we followed a very similar way and measured our regression models in percentage of unemployment rate, so it was easy to understand for the public. If you follow the Unemployment rate you know the FED aims at a 5% unemployment rate, which is why our data is a percentage change. Economically our findings are very interesting and important. Colorado was one of our main focuses. Within Colorado is the Capital Denver, which is rural. As of 2018 Denver had a growing population of 4,976,781. This is 86% of Colorado’s total population. Our findings prove that something needs to change or happen to protect our economy. When 86% of a population is facing a 2.06% increase in unemployment there is something that needs to be done. I found out from ACS (2020), that the federal and local governments are using resources such as public schools, nonprofits, and private companies to hire people even if it temporarily reduces the unemployment rate. With all that being said I believe the help should focus more on urban areas compared to suburban areas. This shows our findings were relevant and even answered a huge question where should the government’s focus be on relief funds to help the economy stay strong.
+
+
+## Empirical Strategy (Raymond)
+
+To answer the question on whether or not the unemployment rate resulting from the Covid-19 lockdown is higher in urban counties rather than suburban, we will be collecting data from two states (Colorado and Utah) and using state-wide data to prove our hypothesis as true. Our regression models ran separately for both states demonstrate the relationship between unemployment rates (as a percentage) and Covid-19 restrictions on county type. There were in fact confounding variables, such as Colorado having a much heavier statewide lockdown implemented by Governor Jarid Polis, and Utah having a much weaker reaction to the rise of Covid-19. With this being so, we had run a differences-in-differences model with Colorado as the control variable and Utah as the treatment variable. Surprisingly however, the results were not statistically significant enough to prove mandatory lockdowns had a substantial impact on the varying unemployment rates.  The causal effect in our research in which unemployment rates were higher in urban counties than suburban can easily be identified by the OLS regression as the negative economic impact on urban counties was seen to be greater than the impact on suburban counties. The final implication we have found is that rather than implicating mandatory lockdowns, the government should aid urban counties with stimulus checks given they are far more densely populated with workers than suburban counties. To test the differential effect of the lockdown on Colorado and Utah, we define the "pre-lockdown" period as January-March 2020 and the "post-lockdown" period as April-September 2020. Both Utah and Colorado announced their stay-at-home recommendation/order at the end of March. 
+
+## Data (Raymond)
+
+With our control variables being the cumulative cases per capita as well as the size of the labor force, we pulled state-wide data on Covid-19 cases in Colorado and Utah. We also used both states archives to determine the amount of workers in the labor force, and attempted to determine whether or not the Covid-19 lockdown had an impact on the unemployment rate in both states. We used a majority of our coronavirus data from canvas such as covidpanel.csv as well as covidincomepartyMetro.csv, and extracted our unemployment data from the state of Colorado and the state of Utah. The panel data we examined did in fact have confounding variables, such as the cumulative amount of Covid-19 cases per capita as well as the size of the labor force in each county (see Tables 1 & 2). The metorpolitan counties in our dataset are differentiated with either an urban or suburban designation. These designations come from the State of Colorado's and the State of Utah's official designations. We should note that Colorado has an additional "Frontier" designation, but for the purposes of our research, frontier counties and rural counties are one in the same. Utah, on the other hand does not designate their counties based on urban, suburban, and rural. Instead, Utah's counties are separated into six classes with the "1st class" being the highest population and valuation counties, and "6th class being the opposite. For this paper class 1 counties were designated as "urban" and class 2 counties were designated "suburban." The remaining counties were labeled "rural." We should note that Utah only contains one "urban" county, Salt Lake County and Colorado only has two "suburban" counties, Broomfield County and Douglas County. 
+
+## Empirical Results (Kevin)
+
+The regression results found in Tables 3 - 8 seem to support our hypothesis. Urban counties saw a greater spike in unemployment than other metropolitan counties following lockdown orders across Colorado and Utah. To test our hypothesis, we ran similar OLS regressions on Colorado counties and Utah counties. We wanted to extrapolate the relationship between unemployment rates (as a percentage) and COVID-19 restrictions by county type. We limited our regression to metropolitan counties (urban and suburban) to limit the effect that different industries have on unemployment. Our models also explicitly control for other confounding variables such as cumulative COVID-19 cases per capita and the size of the labor force in each county.
+
+In Colorado, urban counties were associated with a 1.975 percentage point higher unemployment rate than suburban counties after the statewide lockdown order, all else equal. To put this into perspective, 2% of of the Denver County labor force accounts for over 83,000 people. This result was found to be statistically significant at the 90% level with a p-value of 0.05373. Additionally, this model, which controls for the size of the labor force and cumulative COVID-19 cases per capita, accounts for approximately 69.2% of the variation in Colorado's metropolitan unemployment rates (Table 3). The residuals vs. fitted plot of this regression showed us that the residual for high unemployment counties is greater than zero (Fig. 3). This plot implies some heteroskedasticity, a violation of our OLS assumptions. We accounted for heteroskedasticity in Table 4 with the inclusion of a model that uses robust standard errors. Even with robust standard errors, the Colorado results are significant at the 95% level (Table 4).
+
+Running this regression model on the Utah data tells a similar story. Urban counties in Utah saw a 2.204 percentage point higher unemployment rate than Utah's suburban counties following the stay-at-home recommendation. For reference, 2% of the labor force in Salt Lake County accounts for roughly 126,000 people. Like with the Colorado regression, this result is statistically significant at the 90% level. The Utah version of our model returned an adjusted R-squared value of 0.672 meaning our model explains about 67.2% of the variation of metropolitan county unemployment rates in Utah (Table 5). Looking at the residual-fitted values plot provided in Figure 3, we can see that the residuals are not centered at zero for all points in the data, implying some heteroskedasticity (Fig. 3). Again, we must account for the violation of the heteroskedasticity assumption with robust standard errors. Table 6 shows us that our model with robust standard errors are now statistically significant at the 99% level. It is important to note that, while Colorado has six urban counties, Salt Lake County is the only urban county in Utah.
+
+While the regressions on both Colorado and Utah show a statistical relationship between COVID-19 restrictions and unemployment rates, we must also consider another important distinction between the two states. In Colorado, Governor Jared Polis implemented a mandatory statewide lockdown that resulted in the temporary closure of non-essential businesses. Utah Governor Gary Herbert, on the other hand, made no such order. There was no statewide mandatory lockdown in Utah. Rather, Gov. Herbert issued a voluntary stay-at-home recommendation and no businesses were closed by state mandate. With this context we can run a differences-in-differences model where Utah counties are the control group and Colorado counties are the treatment group to test the differential effect of mandatory lockdowns on unemployment. The coefficient associated with treatment counties after the lockdown is 0.976. Urban counties in Colorado, which implemented a mandatory lockdown, are associated with a 0.648 percentage point lower unemployment rate than similar counties in Utah without a mandatory lockdown (Table 7). Both of these results are not statistically significant with p-values of 0.8562 and 0.6835, respectively. We cannot reject the null that the differential effect is zero. As a matter of fact, none of the coefficients associated with the treatment group were statistically significant at the 95% level. This model explains about 72% of the variation in metropolitan unemployment rates (Table 7). Like with our other models, we cannot ignore heteroskedastic errors in our model (Fig. 5). Our model with robust standard errors asserts the proposition that statewide mandatory lockdown orders did not have a statistically significant differential effect on unemployment rates in Colorado compared to unemployment rates in Utah with a voluntary stay-at-home recommendation (Table 8).
+
+The results of our models have two major implications. First, the negative economic impact on urban counties because of COVID-19 mandates/recommendations is greater than the impact on suburban counties, which supports our hypothesis. Suburban households are not seeing the loss of income that urban households are. We suspect that this is because urban areas have a higher concentration of hourly employees and service industry workers. Policymakers must consider the effect of regulations on these urban workers. This also suggests that federal and state governments should focus on supporting these workers with progressive stimulus payments. Urban workers are suffering the effects of this pandemic at a greater intensity than workers that live in the suburbs. The second major takeaway relates to mandatory vs voluntary COVID-19 restrictions. Our differences-in-differences models show that there is no statistically significant difference in unemployment rates between Colorado and Utah, which had vastly different approaches to the COVID-19 pandemic. While this paper does not analyze the effect of different types of restrictions on COVID-19 cases, the results of this research imply that policymakers should take whichever approach is more effective at containing the virus without having to worry about labor effects.
+
+## Conclusion (JT)
+
+The main goal of our research was to look at the effect the Covid-19 lockdown had on the unemployment rate for urban and suburban areas in both Colorado and Utah. Findings showed that unemployment in urban counties in Colorado increased by 1.975% and in Utah by 2.204%. We tested our Hypothesis that urban counties would have a higher change in percentage in unemployment compared to suburban using an OLS regression. By controlling various confounding variables and focusing on metropolitan areas instead of rural so the industries were essentially the same. Our results were statistically significant proving our hypothesis to be true.
+
+## References
+
+https://www.richmondfed.org/publications/research/coronavirus/economic_impact_covid-19_09-04-20
+https://www.cnbc.com/2020/07/21/some-big-cities-are-hitting-great-depression-unemployment-levels.html
+ 
+https://link.springer.com/article/10.1007/s10708-020-10281-6
+https://www.americanprogress.org/issues/economy/reports/2020/10/28/492376/rural-america-forgotten-coronavirus-crisis/
+https://www.urban.org/features/how-government-jobs-programs-could-boost-employment
+
+
+
+
+
+```{r, echo = FALSE, results = "asis"}
+stargazer(as.data.frame(coMetro), title = "Colorado metropolitan county data", type = "latex", header=FALSE)
+stargazer(as.data.frame(utMetro), title = "Utah metropolitan county data", type = "latex", header=FALSE)
+```
+
+
+```{r cars, echo = FALSE, results = "asis"}
+# Colorado results
+mod1 <- lm(unemprate ~ designation*after, data = coMetro)
+mod2 <- lm(unemprate ~ designation*after + cumcasepc, data = coMetro)
+mod3 <- lm(unemprate ~ designation*after + cumcasepc + laborforce, data = coMetro)
+
+
+stargazer(mod1, mod2, mod3, title="Colorado results", align=TRUE, type = "latex", 
+          covariate.labels = c("Urban counties", "After lockdown", "cumulative cases per capita",
+                               "Size of labor force", "Urban counties after lockdown"),
+          dep.var.labels = c("Unemployment rate"), header=FALSE)
+
+
+
+library(sandwich)
+cov_co <- vcovHC(mod3, type = "HC")
+robust.se.co <- sqrt(diag(cov_co))
+stargazer(mod3, mod3, se = list(NULL, robust.se.co), title = "Colorado results with robust standard errors", 
+          type = "latex",
+          covariate.labels = c("Urban counties", "After lockdown", "cumulative cases per capita", 
+                               "Size of labor force", "Urban counties after lockdown"),
+          dep.var.labels = c("Unemployment rate"),
+          column.labels=c("default","robust"), header=FALSE)
+```
+
+```{r pressure, echo = FALSE, results = "asis"}
+# Utah results
+
+mod1ut <- lm(unemprate ~ designation*after, data = utMetro)
+mod2ut <- lm(unemprate ~ designation*after + cumcasepc, data = utMetro)
+mod3ut <- lm(unemprate ~ designation*after + cumcasepc + laborforce, data = utMetro)
+
+stargazer(mod1ut, mod2ut, mod3ut, title="Utah results", align=TRUE, type = "latex",
+          dep.var.labels = c("Unemployment rate"), covariate.labels = c("Urban counties", "After lockdown",
+                                                                        "Cumulative cases per capita", 
+                                                                        "Size of labor force", 
+                                                                        "Urban counties after lockdown"),
+          header=FALSE)
+
+#Robust standard errors
+cov_ut <- vcovHC(mod3ut, type = "HC")
+robust.se.ut <- sqrt(diag(cov_ut))
+stargazer(mod3ut, mod3ut, se = list(NULL, robust.se.ut), title = "Utah results with robust standard errors", 
+          type = "latex",
+          covariate.labels = c("Urban counties", "After lockdown", "cumulative cases per capita", 
+                               "Size of labor force", "Urban counties after lockdown"),
+          dep.var.labels = c("Unemployment rate"),
+          column.labels=c("default","robust"), header=FALSE)
+```
+
+
+
+```{r, echo = FALSE, results = "asis", message = FALSE}
+#Combined results (Dif in Dif)
+
+both <- full_join(utah, colorado)
+both <- both %>% mutate(treatment = ifelse(State == "CO", 1, 0))
+
+bothMetro <- both %>% filter(designation != "rural")
+
+mod1both <- lm(unemprate ~ treatment*after*designation, data = bothMetro)
+mod2both <- lm(unemprate ~ treatment*after*designation + cumcasepc, data = bothMetro)
+mod3both <- lm(unemprate ~ treatment*after*designation + cumcasepc + laborforce, data = bothMetro)
+
+stargazer(mod1both, mod2both, mod3both, title="Combined results", align=TRUE, type = "latex",
+          dep.var.labels = c("Unemployment rate"),
+          covariate.labels = c("CO counties", "After lockdown", "Urban counties", "Cumulative cases per capita",
+                               "Size of labor force", "CO counties after lockdown", "CO urban counties", 
+                               "Urban counties after lockdown", "Urban CO counties after lockdown"),
+          header=FALSE)
+
+
+#robust standard errors
+cov <- vcovHC(mod3both, type = "HC")
+robust.se <- sqrt(diag(cov))
+stargazer(mod3both, mod3both, se = list(NULL, robust.se), title = "Combined results with robust standard errors", 
+          type = "latex",
+          covariate.labels = c("CO counties", "After lockdown", "Urban counties", 
+                               "Cumulative cases per capita", "Size of labor force", 
+                               "CO counties after lockdown", "CO urban counties", 
+                               "Urban counties after lockdown", "Urban CO counties after lockdown"),
+          column.labels=c("default","robust"), header=FALSE)
+```
+![](/Users/nguyenkm13/Google Drive/fall2020/econ4848/econ4848_project/data/fig1.png)
+``` {r plots, echo = FALSE, message = FALSE}
+# Fig 1
+coAvg <- colorado  %>% 
+  group_by(designation, dates) %>% summarise(avg_unemprate = mean(unemprate))
+
+ggplot(aes(dates, avg_unemprate, color = designation), data = coAvg) + geom_line() + 
+  annotate(geom = "vline",
+           x = c(ymd("2020-03-23")),
+           xintercept = c(ymd("2020-03-23")),
+           linetype = c("solid")) +
+  annotate(geom = "text",
+           label = c("Stay-at-home order"),
+           x = c(ymd("2020-03-23")),
+           y = c(10),
+           angle = 90,
+           vjust = -1) +
+  labs(title = "Fig 2: Unemployment during COVID-19 in Colorado", 
+       y = "Average unemployment rate (%)",
+       x = "Date")
+  
+utAvg <- utah  %>% 
+  group_by(designation, dates) %>% summarise(avg_unemprate = mean(unemprate))
+
+ggplot(aes(dates, avg_unemprate, color = designation), data = utAvg) + geom_line() + 
+  annotate(geom = "vline",
+           x = c(ymd("2020-03-23")),
+           xintercept = c(ymd("2020-03-27")),
+           linetype = c("solid")) +
+  annotate(geom = "text",
+           label = "Voluntary stay-at-home",
+           x = ymd("2020-03-23"),
+           y = 10,
+           angle = 90,
+           vjust = -0.5) +
+  labs(title = "Fig 3: Unemployment during COVID-19 in Utah", 
+       y = "Average unemployment rate (%)",
+       x = "Date")
+
+plot(mod3, which = 1, caption = "Fig 4: Residuals vs Fitted Values for Colorado regression")
+plot(mod3ut, which = 1, caption = "Fig 5: Residuals vs Fitted Values for Utah regression")
+plot(mod3both, which = 1, caption = "Fig 6: Residuals vs Fitted Values for combined regression")
+bothAvg <- both  %>% 
+  group_by(designation, dates) %>% summarise(avg_unemprate = mean(unemprate))
+ggplot(aes(dates, avg_unemprate, color = designation), data = bothAvg) + geom_line() +
+  labs(title = "Fig 7: Unemployment in CO and UT during COVID", 
+       y = "Average unemployment rate (%)",
+       x = "Date")
+```
+
