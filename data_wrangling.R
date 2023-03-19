@@ -2,46 +2,37 @@ library(tidyverse)
 library(readxl)
 library(lubridate)
 
-setwd("/data")
+setwd("/Users/kevnguyen/Library/CloudStorage/GoogleDrive-keng2413@colorado.edu/My Drive/archive/ECON/ECON 4848 - Applied Econometrics/econ4848_project/data/")
 
 #import
-colorado <- read_csv("Unemployment_Estimates_in_Colorado.csv")
-panel <- read_csv("covidpanel.csv")
-inc_party <- read_csv("covidincomepartyMetro.csv")
+colorado <- read_csv("colorado/Unemployment_Estimates_in_Colorado.csv")
+panel <- read_csv("covidpanel.csv") #covid data
+inc_party <- read_csv("covidincomepartyMetro.csv") # political data
 
-## Utah unemployment data import
-jan20 <- read_xlsx("ut_jan20.xlsx")
-jan19 <- read_xlsx("ut_jan19.xlsx")
-feb20 <- read_xlsx("ut_feb20.xlsx")
-feb19 <- read_xlsx("ut_feb19.xlsx")
-mar20 <- read_xlsx("ut_mar20.xlsx")
-mar19 <- read_xlsx("ut_mar19.xlsx")
-apr20 <- read_xlsx("ut_apr20.xlsx")
-apr19 <- read_xlsx("ut_apr19.xlsx")
-may20 <- read_xlsx("ut_may20.xlsx")
-may19 <- read_xlsx("ut_may19.xlsx")
-jun20 <- read_xlsx("ut_jun20.xlsx")
-jun19 <- read_xlsx("ut_jun19.xlsx")
-jul20 <- read_xlsx("ut_jul20.xlsx")
-jul19 <- read_xlsx("ut_jul19.xlsx")
-aug20 <- read_xlsx("ut_aug20.xlsx")
-aug19 <- read_xlsx("ut_aug19.xlsx")
-sep20 <- read_xlsx("ut_sep20.xlsx")
-sep19 <- read_xlsx("ut_sep19.xlsx")
-oct20 <- read_xlsx("ut_oct20.xlsx")
-oct19 <- read_xlsx("ut_oct19.xlsx")
-nov19 <- read_xlsx("ut_nov19.xlsx")
-dec19 <- read_xlsx("ut_dec19.xlsx")
+#Merge all utah data
+mos = c('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 
+        'nov', 'dec')
+year = c('19', '20')
 
+#Import individual month data
+for (i in 1:length(mos)) {
+  for(j in 1:length(year)){
+    if((i == 11 || i == 12) && j == 2){
+      break
+    } else {
+      path = paste('utah/ut_', mos[i], year[j], '.xlsx', sep = '')
+      tmp_df = read_xlsx(path)
+      if(i == 1 && j == 1){
+        utah = tmp_df # init df
+      }
+      utah = utah %>% full_join(tmp_df) # join all utah data
+    }
+  }
+}
 
-# Merge all Utah data into one data frame
-utah <- full_join(jan20, jan19) %>% full_join(feb20) %>% full_join(feb19) %>% full_join(mar20) %>% 
-  full_join(mar19) %>% full_join(apr20) %>% full_join(apr19) %>% full_join(may20) %>% full_join(may19) %>%
-  full_join(jun20) %>% full_join(jun19) %>% full_join(jul20) %>% full_join(jul19) %>% full_join(aug20) %>%
-  full_join(aug19) %>% full_join(sep20) %>% full_join(sep19)%>% full_join(oct20) %>% full_join(oct19) %>%
-  full_join(nov19) %>% full_join(dec19) %>% rename(County = ...1,
-                                                   unemprate = "Unemployment Rate",
-                                                   laborforce = "Labor Force") %>% # rename some variables
+utah = utah %>% rename(County = ...1,
+                         unemprate = "Unemployment Rate",
+                         laborforce = "Labor Force") %>% # rename some variables
   filter(region == "County") # Keep only county data
 
 
@@ -130,4 +121,5 @@ colorado<- colorado %>% rowwise() %>% mutate(cumcasepc  = coalesce(cumcasepc, 0)
                                              
 
 
-write_csv(colorado, "MAIN_co.csv")
+write_csv(colorado, "MAIN_co.csv") #export final data
+
