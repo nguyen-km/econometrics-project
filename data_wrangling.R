@@ -2,7 +2,7 @@ library(tidyverse)
 library(readxl)
 library(lubridate)
 
-setwd("/Users/nguyenkm13/Google Drive/fall2020/econ4848/econ4848_project/data/")
+setwd("/data")
 
 #import
 colorado <- read_csv("Unemployment_Estimates_in_Colorado.csv")
