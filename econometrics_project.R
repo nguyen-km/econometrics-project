@@ -1,5 +1,5 @@
 library(tidyverse)
-setwd("/Users/nguyenkm13/Google Drive/fall2020/econ4848/econ4848_project/data")
+setwd("/data")
 
 colorado <- read_csv("MAIN_co.csv")
 
